@@ -1,0 +1,58 @@
+<DOCTYPE html>
+<html>
+<head>
+ <style>
+        .box {
+            border: 1px solid rgb(61, 60, 60);
+            width: 320px;
+            padding: 15px;
+            margin: 15px auto;
+        }
+ </style>
+</head>
+<body>
+
+<div class="box">
+    <h3>ดูข้อมูลตัวฉัน</h3>
+    <button onclick="getProfile()">ดูข้อมูล</button>
+    <div id="myProfile" style="margin-top: 10px;"></div>
+</div>
+
+<div class="box">
+    <h3>เช็ควันเวลา</h3>
+    <button onclick="getPublicAPI()">ดูวันเวลา</button>
+    <p id="showQuote" style="margin-top: 10px; font-style: italic;"></p>
+</div>
+
+<script>
+    function getProfile() {
+        const myProfile = document.getElementById('myProfile');
+        
+        fetch('http://localhost:3000/about')
+            .then(res => res.json())
+            .then(data => {
+                myProfile.innerHTML = 
+                "ชื่อเล่น: " + data.nickname + 
+                "<br>ชื่อจริง: " + data.fullname + 
+                "<br>สถานะ: " + data.status + 
+                "<br>งานอดิเรก: " + data.hobby;
+            });
+    }
+
+   function getPublicAPI() {
+    const showQuote = document.getElementById('showQuote');
+    
+    fetch('https://timeapi.io/api/time/current/zone?timeZone=Asia/Bangkok')
+        .then(res => res.json())
+        .then(data => {
+            showQuote.innerText = "เวลาปัจจุบัน: " + data.date + " " + data.time;
+        })
+        .catch(err => {
+            showQuote.innerText = "Please try again later.";
+            console.log(err);
+        });
+}
+</script>
+
+</body>
+</html>
