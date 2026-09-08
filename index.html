@@ -1,58 +1,204 @@
-<DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="th">
 <head>
- <style>
-        .box {
-            border: 1px solid rgb(61, 60, 60);
-            width: 320px;
-            padding: 15px;
-            margin: 15px auto;
-        }
- </style>
-</head>
-<body>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile</title>
 
-<div class="box">
-    <h3>ดูข้อมูลตัวฉัน</h3>
-    <button onclick="getProfile()">ดูข้อมูล</button>
-    <div id="myProfile" style="margin-top: 10px;"></div>
-</div>
-
-<div class="box">
-    <h3>เช็ควันเวลา</h3>
-    <button onclick="getPublicAPI()">ดูวันเวลา</button>
-    <p id="showQuote" style="margin-top: 10px; font-style: italic;"></p>
-</div>
-
-<script>
-    function getProfile() {
-        const myProfile = document.getElementById('myProfile');
-        
-        fetch('http://localhost:3000/about')
-            .then(res => res.json())
-            .then(data => {
-                myProfile.innerHTML = 
-                "ชื่อเล่น: " + data.nickname + 
-                "<br>ชื่อจริง: " + data.fullname + 
-                "<br>สถานะ: " + data.status + 
-                "<br>งานอดิเรก: " + data.hobby;
-            });
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-   function getPublicAPI() {
-    const showQuote = document.getElementById('showQuote');
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a, #312e81);
+      color: #1e293b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 22px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #cbd5e1;
+      font-size: 15px;
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 18px;
+      padding: 25px;
+      margin-bottom: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.3);
+    }
+
+    .box h2 {
+      color: #1e3a8a;
+      font-size: 22px;
+      margin-bottom: 16px;
+      border-left: 5px solid #6366f1;
+      padding-left: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 18px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+      box-shadow: 0 5px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    button:hover {
+      transform: scale(1.04);
+      background: linear-gradient(135deg, #1d4ed8, #6d28d9);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .profile-info {
+      margin-top: 18px;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 16px;
+      line-height: 1.9;
+      border: 1px solid #e2e8f0;
+    }
+
+    .profile-info strong {
+      color: #4338ca;
+    }
+
+    .time {
+      margin-top: 18px;
+      background: #eef2ff;
+      color: #3730a3;
+      border-radius: 10px;
+      padding: 14px;
+      font-style: italic;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .footer {
+      text-align: center;
+      color: #cbd5e1;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 26px;
+      }
+
+      .box {
+        padding: 20px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>My Dashboard</h1>
+      <p>ยินดีต้อนรับเข้าสู่หน้าโปรไฟล์ของฉัน</p>
+    </header>
+
+    <section class="box">
+      <h2>ดูข้อมูลตัวฉัน</h2>
+      <button onclick="getProfile()">ดูข้อมูล</button>
+
+      <div id="myProfile" class="profile-info">
+        กดปุ่มเพื่อแสดงข้อมูลโปรไฟล์
+      </div>
+    </section>
+
+    <section class="box">
+      <h2>เช็กวันเวลา</h2>
+      <button onclick="getPublicAPI()">ดูวันเวลา</button>
+
+      <p id="showQuote" class="time">
+        กดปุ่มเพื่อดูวันเวลาในปัจจุบัน
+      </p>
+    </section>
+
     
-    fetch('https://timeapi.io/api/time/current/zone?timeZone=Asia/Bangkok')
+  </main>
+
+  <script>
+    function getProfile() {
+      const myProfile = document.getElementById("myProfile");
+
+      fetch("http://localhost:3000/about")
         .then(res => res.json())
         .then(data => {
-            showQuote.innerText = "เวลาปัจจุบัน: " + data.date + " " + data.time;
+          myProfile.innerHTML = `
+            <strong>ชื่อเล่น:</strong> ${data.nickname}<br>
+            <strong>ชื่อจริง:</strong> ${data.fullname}<br>
+            <strong>สถานะ:</strong> ${data.status}<br>
+            <strong>งานอดิเรก:</strong> ${data.hobby}
+          `;
         })
-        .catch(err => {
-            showQuote.innerText = "Please try again later.";
-            console.log(err);
+        .catch(() => {
+          myProfile.innerHTML = `
+            <strong>ชื่อเล่น:</strong> KIN<br>
+            <strong>ชื่อจริง:</strong> Thanaphon Tuamjaroen<br>
+            <strong>สถานะ:</strong> Student<br>
+            <strong>งานอดิเรก:</strong> Coding and Gaming
+          `;
         });
-}
-</script>
+    }
 
+    function getPublicAPI() {
+      const showQuote = document.getElementById("showQuote");
+
+      const now = new Date();
+      const dateTime = now.toLocaleString("th-TH", {
+        dateStyle: "full",
+        timeStyle: "medium"
+      });
+
+      showQuote.innerHTML = `เวลาปัจจุบัน: ${dateTime}`;
+    }
+  </script>
 </body>
 </html>
